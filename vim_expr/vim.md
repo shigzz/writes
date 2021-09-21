@@ -185,7 +185,7 @@ vim-go是使用vim开发Golang中最重要的插件，使用vim-go配合gopls等
 
 #### [YouCompleteMe](https://github.com/ycm-core/YouCompleteMe)
 
-YouCompleteMe（之后称ycm）非常强大的一个语言辅助工具，结合不同的lsp给不同的语言提供全面的代码跳转，补全，错误检测等等功能，个人认为是同类插件中使用最好的，据说也是安装过程最困难的一个插件。
+YouCompleteMe（简称ycm）非常强大的一个语言辅助工具，结合不同的lsp给不同的语言提供全面的代码跳转，补全，错误检测等等功能，个人认为是同类插件中使用最好的，据说也是安装过程最困难的一个插件。
 
 可能有朋友注意到，vim-go也能提供lsp相关的功能，ycm的功能和vim-go发生了重叠。确实，而且ycm和vim-go使用的lsp工具都是gopls，同时使用还会造成重复资源的浪费。因为ycm提供多种语言的辅助功能，而且体验上比较优秀，同时除了Golang开发外，我也需要使用vim开发C/C++/Python等语言，都会使用到ycm。所以，我选择了ycm，在vim-go中禁用了gopls，仅保留了基础功能。（如果是在内存方面“财大气粗”的朋友可以不用理会，两者都开启）。
 
@@ -226,7 +226,7 @@ YouCompleteMe unavailable: requires Vim compiled with Python (3.6.0+) support.
 python3 install.py --go-completer
 ```
 
-如果中间出现了编译库不存在的问题，那么根据报错信息安装对应的库即可。还有一种失败的情况——编译器不支持C++17也会导致编译失败，那么久需要升级一下你的GNU套件了。
+如果中间出现了编译库不存在的问题，那么根据报错信息安装对应的库即可。还有一种失败的情况——编译器不支持C++17也会导致编译失败，需要升级一下你的GNU套件。
 
 好了，以上顺利完成后，整个ycm的安装已经完成了，最后只需要在`.vimrc`文件中配置一下，就可以开启代码跳转，补全的快乐了。
 
