@@ -119,6 +119,7 @@ inoremap <leader>a <ESC> " inoremap中，i表示在insert模式下，nore表示�
 inoremap <leader>w <ESC>:w<cr> 
 inoremap <c-l> <ESC>la " insert模式下将光标右移
 
+"vim中使用<C-W>j/k/h/l实现窗口间的跳转，以下映射简化了这些快捷键
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
@@ -176,7 +177,7 @@ vim-go是使用vim开发Golang中最重要的插件，使用vim-go配合gopls等
 
 介绍几个我用得比较多的命令吧：
 
-* `:GoImplements`列出某个街口的实现列表，或者跳转到某个结构体对应的借口
+* `:GoImplements`列出某个接口的实现列表，或者跳转到某个结构体对应的接口
 * `:GoCallers`列出某个函数的调用者
 * `:GoCallees`与上一个相反，列出函数的调用对象
 * `:GoReferrers`列出与某个变量（包括函数）相关的代码行
@@ -187,7 +188,7 @@ vim-go是使用vim开发Golang中最重要的插件，使用vim-go配合gopls等
 
 YouCompleteMe（简称ycm）非常强大的一个语言辅助工具，结合不同的lsp给不同的语言提供全面的代码跳转，补全，错误检测等等功能，个人认为是同类插件中使用最好的，据说也是安装过程最困难的一个插件。
 
-可能有朋友注意到，vim-go也能提供lsp相关的功能，ycm的功能和vim-go发生了重叠。确实，而且ycm和vim-go使用的lsp工具都是gopls，同时使用还会造成重复资源的浪费。因为ycm提供多种语言的辅助功能，而且体验上比较优秀，同时除了Golang开发外，我也需要使用vim开发C/C++/Python等语言，都会使用到ycm。所以，我选择了ycm，在vim-go中禁用了gopls，仅保留了基础功能。（如果是在内存方面“财大气粗”的朋友可以不用理会，两者都开启）。
+可能有朋友注意到，vim-go也能提供lsp相关的功能，ycm的功能和vim-go发生了重叠。确实，而且ycm和vim-go使用的lsp工具都是gopls，同时使用还会造成重复资源的浪费。因为ycm提供多种语言的辅助功能，而且体验上比较优秀，同时除了Golang开发外，我也需要使用vim开发C/C++/Python等语言，都会使用到ycm。所以，我选择了ycm，在vim-go中禁用了gopls，仅保留了基础功能，如代码块的跳转。（如果是在内存方面“财大气粗”的朋友可以不用理会，两者都开启）。
 
 **那么就开始最艰难的插件的安装过程吧**
 
@@ -230,3 +231,71 @@ python3 install.py --go-completer
 
 好了，以上顺利完成后，整个ycm的安装已经完成了，最后只需要在`.vimrc`文件中配置一下，就可以开启代码跳转，补全的快乐了。
 
+**安装完毕，开始爽**
+
+在Golang项目代码中，一般对于某个变量/函数/结构的跳转需求，我主要依赖三个：
+
+* 跳转到当前变量/函数/结构的定义
+* 列出当前变量/函数/结构相关代码的列表
+* 跳转到当前结构实现的接口/列出实现了某个接口的所有结构
+
+这三个需求使用ycm都可以实现。使用以下命令分别对应于上述的三个跳转需求:
+
+* `:YcmCompleter GoToDefinitionElseDeclaration`
+* `:YcmCompleter GoToReferences`
+* `:YcmCompleter GoToImplementation`
+
+当然，在开发中，我们使用跳转命令的频次是非常高的，如果每次都要敲命令的话，必然不能提高效率。这里同样可以使用映射来自定义快捷键，比如我就将上述三个命令作了如下映射。
+
+```
+nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>r :YcmCompleter GoToReferences<CR>
+nnoremap <leader>i :YcmCompleter GoToImplementation<CR>
+```
+
+这里我设置了比较好记的快捷键，`j`代表`jump`,`r`代表`references`，`i`代表`implementation`。大家也可以根据自己的喜好自己定义。
+
+关于ycm另外的设置以及解释，我也在这里给出：
+
+``` 
+" 触发补全快捷键
+" 向后切换补全候选词
+let g:ycm_key_list_select_completion = ['<TAB>', '<c-n>', '<Down>']
+" 向前切换补全候选词
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<c-p>', '<Up>']
+
+let g:ycm_auto_trigger = 1
+" 最小自动触发补全的字符大小设置为 2
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_server_log_level = 'info'
+let g:ycm_min_num_identifier_candidate_chars = 2
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+let g:ycm_key_invoke_completion = '<c-z>'
+" 关闭preview窗口
+set completeopt-=preview
+```
+
+#### [NerdTree](https://github.com/preservim/nerdtree)
+
+
+
+#### [LeaderF](https://github.com/Yggdroot/LeaderF)
+
+
+
+#### [AirLine](https://github.com/vim-airline/vim-airline)
+
+
+
+#### [Ack](https://github.com/mileszs/ack.vim)
+
+
+
+#### [NerdCommenter](https://github.com/preservim/nerdcommenter)
+
+
+
+#### [Gitgutter](https://github.com/airblade/vim-gitgutter)
