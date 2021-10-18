@@ -280,7 +280,39 @@ set completeopt-=preview
 
 #### [NerdTree](https://github.com/preservim/nerdtree)
 
+几乎所有主流的IDE都会提供文件管理窗口，在vim中自然不能落下，NerdTree这个插件便提供了以上功能。同样，将`Plug 'preservim/nerdtree'` 加入`vimrc`中即可完成安装。
 
+以下是我个人的一些配置，可以作为参考：
+
+```
+let g:NERDTreeWinPos = "left"
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let g:NERDTreeWinSize=25
+let NERDTreeShowHidden=0
+" 开启/关闭窗口
+map <leader>nn :NERDTreeToggle<cr>
+" 书签功能
+map <leader>nb :NERDTreeFromBookmark<Space>
+map <leader>nf :NERDTreeFind<cr>
+let g:nerdtree_tabs_open_on_console_startup=0
+```
+
+另外，使用`Xuyuanp/nerdtree-git-plugin`这个插件可以集成git状态到nerdtree的窗口，同样安装插件后，加入以下配置即可：
+
+```
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+			\ "Modified"  : "✹",
+			\ "Staged"    : "✚",
+			\ "Untracked" : "✭",
+			\ "Renamed"   : "➜",
+			\ "Unmerged"  : "═",
+			\ "Deleted"   : "✖",
+			\ "Dirty"     : "✗",
+			\ "Clean"     : "✔︎",
+			\ 'Ignored'   : '☒',
+			\ "Unknown"   : "?"
+			\ }
+```
 
 #### [LeaderF](https://github.com/Yggdroot/LeaderF)
 
