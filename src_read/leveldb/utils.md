@@ -149,6 +149,31 @@ class LEVELDB_EXPORT FilterPolicy {
 
 ### bloom
 
+bloomFilter类有两个私有变量：
+
+```cpp
+  size_t bits_per_key_;
+  size_t k_;
+```
+
+其中`bits_per_key`为创建的时候作为参数传入，`k_`为`bits_per_key`乘以0.69，因为0.69最接近ln(2)，至于为什么是ln(2)，暂时不清楚。最后根据`k_`的大小确定最终取值。
+
+```cpp
+k_ = static_cast<size_t>(bits_per_key * 0.69);  // 0.69 =~ ln(2)
+if (k_ < 1) k_ = 1;
+if (k_ > 30) k_ = 30;
+```
+
+// 未完
+
+### coding
+
+coding部分包含一系列编码解码的操作。
+
+### Cache
+
+
+
 
 
 
